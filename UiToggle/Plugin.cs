@@ -11,30 +11,21 @@ namespace UiToggle
         public string Name => "UI Toggle Command";
         private const string CommandName = "/uitoggle";
 
-        private ICommandManager CommandManager { get; init; }
-        private IGameGui GameGui { get; set; }
-        private IChatGui ChatGui { get; set; }
-        private IPluginLog PluginLog { get; init; }
+        [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
+        [PluginService] internal static IGameGui GameGui { get; private set; } = null!;
+        [PluginService] internal static IChatGui ChatGui { get; private set; } = null!;
+        [PluginService] internal static IPluginLog PluginLog { get; private set; } = null!;
 
         private bool toggle = false;
 
-        public Plugin(
-            [RequiredVersion("1.0")] ICommandManager commandManager,
-            [RequiredVersion("1.0")] IGameGui gameGui,
-            [RequiredVersion("1.0")] IChatGui chatGui,
-            [RequiredVersion("1.0")] IPluginLog pluginLog)
+        public Plugin()
         {
-            this.CommandManager = commandManager;
-            this.GameGui = gameGui;
-            this.ChatGui = chatGui;
-            this.PluginLog = pluginLog;
-
-            this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand));
+            CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand));
         }
 
         public void Dispose()
         {
-            this.CommandManager.RemoveHandler(CommandName);
+            CommandManager.RemoveHandler(CommandName);
         }
 
         private void OnCommand(string command, string args)
