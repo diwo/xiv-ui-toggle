@@ -50,7 +50,7 @@ namespace UiToggle
 
         private unsafe void toggleUI()
         {
-            var uiModule = (UIModule*)GameGui.GetUIModule();
+            var uiModule = (UIModule*)GameGui.GetUIModule().Address;
             var raptureAtkModule = uiModule->GetRaptureAtkModule();
             raptureAtkModule->SetUiVisibility(!raptureAtkModule->IsUiVisible);
         }
